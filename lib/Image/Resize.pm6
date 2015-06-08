@@ -1,6 +1,6 @@
 use GD::Raw;
 
-module Image::Resize;
+unit module Image::Resize;
 
 class Image::Resize {
 
