@@ -58,7 +58,7 @@ class Image::Resize {
 
 
     method !get-ext($path) {
-        $path.IO.path.basename ~~ /'.' (\w+)/;
+        $path.IO.basename ~~ /'.' (\w+)/;
         my Str $ext = ~$/[0];
         die "Path '$path' is missing image extension (.png, .jpg etc.)"
             unless $ext;
