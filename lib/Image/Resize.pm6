@@ -16,7 +16,7 @@ class Image::Resize {
         self.bless(*, img-path => $path);
     }
 
-    submethod BUILD(:$!img-path) { 
+    submethod BUILD(:$!img-path) {
         self!open-src();
     }
 
@@ -29,10 +29,10 @@ class Image::Resize {
         self.resize($dst-path, ($w * $factor).Int, ($h * $factor).Int, :$no-resample, :$jpeg-quality);
     }
 
-    multi method resize(Cool $dst-path, 
+    multi method resize(Cool $dst-path,
             Int $new-width, Int $new-height,
             :$no-resample, :$jpeg-quality is copy) {
-        
+
         $jpeg-quality //= -1;
 
         my $w = gdImageSX($!src-img);
@@ -43,14 +43,14 @@ class Image::Resize {
             unless $resized;
 
         if $no-resample {
-            gdImageCopyResized($resized, $!src-img, 0, 0, 0, 0, 
+            gdImageCopyResized($resized, $!src-img, 0, 0, 0, 0,
                     $new-width, $new-height, $w, $h)
         }
         else {
-            gdImageCopyResampled($resized, $!src-img, 0, 0, 0, 0, 
+            gdImageCopyResampled($resized, $!src-img, 0, 0, 0, 0,
                     $new-width, $new-height, $w, $h);
-        } 
-        
+        }
+
         self!save-img($resized, $dst-path, :$jpeg-quality);
         gdImageDestroy($resized);
         self;
@@ -62,7 +62,7 @@ class Image::Resize {
         my Str $ext = ~$/[0];
         die "Path '$path' is missing image extension (.png, .jpg etc.)"
             unless $ext;
-        
+
         die "Unsupported image extension '$ext' in $path"
             unless $ext.lc ~~ any <gif jpg jpeg png bmp>;
 
@@ -70,7 +70,7 @@ class Image::Resize {
     }
 
     method !open-src {
-        
+
         $!img-path or die "no image path";
         my $fh = fopen($!img-path, "rb")
             or die "unable to open $!img-path for reading";
@@ -83,14 +83,14 @@ class Image::Resize {
             gif => &gdImageCreateFromGif,
             png => &gdImageCreateFromPng
         };
-        
+
         {
             $!src-img = %ext-to-func{$ext}($fh) or {
                     fclose($fh);
                     die "unable to load $!img-path as $ext";
                 }();
         }
-        
+
         fclose($fh);
     }
 
@@ -101,7 +101,7 @@ class Image::Resize {
             or die "Unable top open '$img' for writing";
 
         my $ext = self!get-ext($dst-path);
-        
+
         given ($ext) {
             when any <jpg jpeg> {
                 gdImageJpeg($img, $imgh, $jpeg-quality);
@@ -127,7 +127,7 @@ class Image::Resize {
     }
 }
 
-multi sub resize-image(Cool $src-img, Cool $dst-img, 
+multi sub resize-image(Cool $src-img, Cool $dst-img,
         $new-width, $new-height,
         :$no-resample, :$jpeg-quality) is export {
 
@@ -157,7 +157,7 @@ Image::Resize - Resize images using GD
 
     # Resize to exactly 400x400 pixels.
     resize-image("original.jpg", "resized.gif", 400, 400);
-    
+
 =head1 DESCRIPTION
 
 C<Image::Resize> takes an image and resizes it. Can read jpg, png and gif
