@@ -76,13 +76,12 @@ class Image::Resize {
             or die "unable to open $!img-path for reading";
 
         my $ext = self!get-ext($!img-path);
-        my %ext-to-func = {
+        my %ext-to-func =
             bmp => &gdImageCreateFromBmp,
             jpg => &gdImageCreateFromJpeg,
             jpeg => &gdImageCreateFromJpeg,
             gif => &gdImageCreateFromGif,
-            png => &gdImageCreateFromPng
-        };
+            png => &gdImageCreateFromPng;
 
         {
             $!src-img = %ext-to-func{$ext}($fh) or {
