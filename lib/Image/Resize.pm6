@@ -118,11 +118,12 @@ class Image::Resize {
 
     method DESTROY {
         gdImageDestroy($!src-img) if $!src-img;
+        $!src-img = Nil;
     }
 
-    # Workaround until DESTROY works.
     method clean {
         gdImageDestroy($!src-img) if $!src-img;
+        $!src-img = Nil;
     }
 }
 
