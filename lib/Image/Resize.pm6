@@ -20,6 +20,22 @@ class Image::Resize {
         self!open-src();
     }
 
+    method scale-to-width(Cool $dst-path, Int $width, :$no-resample, :$jpeg-quality) {
+        my $w = gdImageSX($!src-img);
+        my $h = gdImageSY($!src-img);
+        my $factor = $width / $w;
+
+        self.resize($dst-path, $width, ($h * $factor).Int, :$no-resample, :$jpeg-quality);
+    }
+
+    method scale-to-height(Cool $dst-path, Int $height, :$no-resample, :$jpeg-quality) {
+        my $w = gdImageSX($!src-img);
+        my $h = gdImageSY($!src-img);
+        my $factor = $height / $h;
+
+        self.resize($dst-path, ($w * $factor).Int, $height, :$no-resample, :$jpeg-quality);
+    }
+
     multi method resize(Cool $dst-path, $factor,
         :$no-resample, :$jpeg-quality) {
 
