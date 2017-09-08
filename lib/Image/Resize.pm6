@@ -158,6 +158,15 @@ multi sub resize-image(Cool $src-img, Cool $dst-img, $factor,
             $dst-img, $factor, :$no-resample, :$jpeg-quality).clean();
 }
 
+sub scale-to-width(Cool $src-img, Cool $dst-path, Int $width, :$no-resample, :$jpeg-quality) is export {
+    Image::Resize.new($src-img).scale-to-width($dst-path, $width, :$no-resample, :$jpeg-quality).clean;
+}
+
+sub scale-to-height(Cool $src-img, Cool $dst-path, Int $height, :$no-resample, :$jpeg-quality) is export {
+    Image::Resize.new($src-img).scale-to-height($dst-path, $height, :$no-resample, :$jpeg-quality).clean;
+}
+
+
 =begin pod
 
 =head1 NAME
@@ -173,6 +182,12 @@ Image::Resize - Resize images using GD
 
     # Resize to exactly 400x400 pixels.
     resize-image("original.jpg", "resized.gif", 400, 400);
+
+    # scalte to height 150px, adjust the width accordingly
+    scalte-to-height("me.jpg", "thumbnail.jpg", 150);
+
+    # scalte to width 150px, adjust the height accordingly
+    scalte-to-width("me.jpg", "thumbnail.jpg", 150);
 
 =head1 DESCRIPTION
 
