@@ -16,6 +16,8 @@
   "resources" : [ ],
   "source-url" : "git://github.com/dagurval/perl6-image-resize.git",
   "tags" : [ ],
-  "test-depends" : [ ],
+  "test-depends" : [
+    "Test::META"
+  ],
   "version" : "0.01"
 }
