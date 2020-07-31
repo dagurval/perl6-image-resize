@@ -16,7 +16,7 @@ sub get-png-size($path) is export {
 my @to-delete;
 sub tmp-file($ext) is export {
     my $path = $*TMPDIR;
-    $path = $path.child( ('a'..'z', 'A'..'Z').pick(10).join ~ ".$ext" );
+    $path = $path.child( ('a'..'z', 'A'..'Z').flat.pick(10).join ~ ".$ext" );
 
     push @to-delete, $path;
     return $path.Str;
